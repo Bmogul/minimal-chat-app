@@ -1,0 +1,79 @@
+
+body{
+    background-color: rgb(49, 53, 40);
+
+}
+
+div#ActiveUsers{
+    padding: 5px;
+    /* padding-bottom: 20px; */
+    background-color: rgb(222, 255, 151);
+    height:auto;
+    outline: 2px solid rgb(48, 55, 33);
+    top: 0;
+}
+
+div#SendMsg{
+    padding: 5px;
+    background-color: rgb(222, 255, 151);
+    padding-bottom: 20px;
+
+}
+
+div#RecieveMsg{
+    margin-top: 100px;
+    margin-bottom: 50px;
+    padding: 5px;
+    padding-bottom: 20px;
+    background-color: rgb(222, 255, 151);
+}
+
+span.loginspan{
+    display: inline-block;
+    text-align: center;
+    padding-top: 5px;
+    vertical-align: middle;
+}
+span.msgspan{
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 5px;
+}
+.msg{
+    resize: none;
+    width: 300px;
+    height: 100px;
+}
+.err{
+    font-size: small;
+    color: brown;
+}
+.userlist{
+    resize: none;
+    width: 200px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.loginspan{
+    margin-right: 25px;
+}
+
+.inputLabel{
+    padding: 5px;
+    margin: 5px;
+}
+
+p.sectionHeader{
+    font-size:x-large;
+    padding-bottom: 10px;
+    padding-left: 10px;
+
+    border-bottom: 2px solid rgb(48, 55, 33);
+    width: 25%;
+}
+
+
+

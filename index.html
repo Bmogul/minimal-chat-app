@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>Chat App</title>
+</head>
+<body>
+    <div id="ActiveUsers">
+        <p>
+            <label><strong>Chat App</strong></label><br/>
+            <textarea title="bob" class="userlist" readonly="true" id="listofusers"></textarea>
+        </p>
+    </div>
+    <div id="SendMsg">
+        <p class="sectionHeader">Login</p>
+        <form>
+            <span class="loginspan" >
+                <label class="inputLabel">Username: </label>
+                <input type="text" id="username" name="uname" >
+                <br />
+                <label class="inputLabel">Password:&nbsp</label>
+                <input type="password" id="password" />
+                <br />
+            </span>
+            <span class="msgspan" >
+                <label class="messageLabel">Enter Message Below:</label><br />
+                <textarea class="msg" id="message" > </textarea>
+            </span>
+        </form>
+        <br/>
+        <p hidden="true" class="err" id="errormsg" > User cannot be found. Please check credentials. Username and Password are case sensitive.</p>
+    </div>
+    <div id="RecieveMsg">
+        <p class="sectionHeader">Listen</p>
+        <form>
+            <span class="loginspan" >
+                <label class="inputLabel">Username: </label>
+                <input type="text" id="usernameListen" />
+                <br />
+            </span>
+            <span class="msgspan" >
+                <label class="messageLabel">Message:</label><br />
+                <textarea class="msg" id="messageListen" readonly="true">Enter a username</textarea>
+            </span>
+        </form>
+    </div>
+
+    <script>
+        const uname = document.getElementById('username');
+        const unameL = document.getElementById('usernameListen');
+        const password = document.getElementById('password');
+        const message = document.getElementById('message');
+        const messageL = document.getElementById('messageListen');
+        const errormsg = document.getElementById('errormsg');
+        const users = document.getElementById('listofusers');
+
+        const getusers = () =>{
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'getUsers.php', true);
+            xhr.onload = function(){
+                const value = this.responseText;
+                users.value = "Active Users: "+value.split("\n")[0].slice(0,-2);
+                users.title = value.split("\n")[1];
+            }
+            xhr.send();
+        }
+        getusers();
+        message.onkeyup = () =>{
+            let mval = encodeURIComponent(message.value);
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'updateMessage.php?name='+uname.value+'&password='+password.value+'&msg='+message.value, true);
+
+            xhr.onload = function(){
+                switch(this.responseText){
+                    case 'INVALID':
+                        errormsg.hidden = false;
+                        break;
+                    case 'UPDATED':
+                        errormsg.hidden = true;
+                        break;
+                }
+            }
+            xhr.send();
+        }
+        setInterval(()=>{
+            if(unameL.value == ""){
+                messageL.value = "Enter a username";
+            } else if(unameL.value == uname.value){
+
+                messageL.value = "Enter a different user";
+            }else{
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'listen.php?name='+unameL.value, true);
+                xhr.onload = function(){
+                    messageL.value = this.responseText;
+                }
+                xhr.send();
+            }
+        }, 5000)
+
+    </script>
+
+</body>
+</html>
